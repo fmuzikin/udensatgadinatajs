@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ūdens Atgādinātājs</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:#f7f9fb;color:#222;}
+
+header{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:15px 40px;background:#fff;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+    position:sticky;top:0;z-index:10;
+}
+
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;}
+
+nav a{
+    margin:0 15px;
+    text-decoration:none;
+    color:#000;
+    font-weight:500;
+    cursor:pointer;
+}
+
+.hamburger{display:none;font-size:26px;cursor:pointer;}
+
+.container{width:90%;max-width:1100px;margin:40px auto;}
+
+.card{
+    background:#fff;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.07);
+}
+
+.main-card{text-align:center;}
+
+.dropsize{width:70px;margin-bottom:15px;}
+.subtitle{color:#666;}
+
+.water-amount{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    margin:20px 0;
+    font-size:22px;
+    font-weight:600;
+}
+
+.circle{
+    width:14px;height:14px;
+    border-radius:50%;
+    border:3px solid #4aa8ff;
+}
+
+button{
+    background:#4aa8ff;
+    color:#fff;
+    padding:12px 25px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+    transition:.3s;
+}
+button:hover{background:#1c8af5;}
+
+.section{display:none;}
+.section.active{display:block;}
+
+.progress{
+    background:#e2ecf3;
+    height:18px;
+    border-radius:10px;
+    margin-top:15px;
+    overflow:hidden;
+}
+.progress-fill{
+    height:100%;
+    width:0%;
+    background:#4aa8ff;
+    border-radius:10px;
+    transition:width .3s ease;
+}
+
+@media(max-width:768px){
+    nav{
+        display:none;
+        flex-direction:column;
+        background:#fff;
+        padding:15px;
+        position:absolute;
+        right:20px;
+        top:65px;
+        border-radius:10px;
+        box-shadow:0 2px 10px rgba(0,0,0,.15);
+    }
+    nav.show{display:flex;}
+    .hamburger{display:block;}
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <svg width="28" height="28" fill="#4aa8ff" viewBox="0 0 24 24">
+            <path d="M12 2C12 2 5 9 5 14C5 18 8 22 12 22C16 22 19 18 19 14C19 9 12 2 12 2Z"/>
+        </svg>
+        <span>Ūdens Atgādinātājs</span>
+    </div>
+
+    <nav id="nav">
+        <a onclick="showPage('home')">Ūdens</a>
+        <a onclick="showPage('stats')">Statistika</a>
+        <a onclick="showPage('notify')">Paziņojumi</a>
+        <a onclick="showPage('contacts')">Kontakti</a>
+        <a onclick="showPage('about')">Par mums</a>
+    </nav>
+
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+</header>
+
+<main class="container">
+
+<!-- HOME -->
+<section id="home" class="section active">
+    <div class="card main-card">
+        <svg class="dropsize" fill="#4aa8ff" viewBox="0 0 24 24">
+            <path d="M12 2C12 2 5 9 5 14C5 18 8 22 12 22C16 22 19 18 19 14C19 9 12 2 12 2Z"/>
+        </svg>
+
+        <h1>Ūdens Atgādinātājs</h1>
+        <p class="subtitle">Atceries dzert ūdeni!</p>
+
+        <div class="water-amount">
+            <span class="circle"></span>
+            <strong id="waterCount">0 ml</strong>
+        </div>
+
+        <button onclick="addWater()">Pievienot 250 ml</button>
+    </div>
+</section>
+
+<!-- STATS -->
+<section id="stats" class="section">
+    <div class="card">
+        <h2>Statistika</h2>
+
+        <p style="margin-top:10px;">
+            Dienas mērķis: <strong>3000 ml</strong>
+        </p>
+
+        <h3 style="margin-top:20px;">Tavs progress:</h3>
+
+        <div class="progress">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <p id="progressText" style="margin-top:10px;color:#666;">
+            0% no dienas mērķa
+        </p>
+
+        <!-- КНОПКА СБРОСА -->
+        <button style="margin-top:15px;" onclick="resetProgress()">
+            Anulēt progresu
+        </button>
+    </div>
+</section>
+
+<!-- NOTIFICATIONS -->
+<section id="notify" class="section">
+    <div class="card">
+        <h2>Paziņojumi</h2>
+        <p style="margin-top:10px;">
+            🔔 Atceries izdzert glāzi ūdens ik pēc 1–2 stundām.
+        </p>
+        <p style="margin-top:5px;">
+            💧 Regulāra ūdens dzeršana uzlabo pašsajūtu un koncentrēšanos.
+        </p>
+    </div>
+</section>
+
+<!-- CONTACTS -->
+<section id="contacts" class="section">
+    <div class="card">
+        <h2>Kontakti</h2>
+        <p style="margin-top:10px;">
+            📧 E-pasts: <strong>info@udensatgadinatajs.lv</strong>
+        </p>
+        <p style="margin-top:5px;">
+            📞 Telefons: <strong>+371 234 56 789</strong>
+        </p>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+    <div class="card">
+        <h2>Par mums</h2>
+        <p style="margin-top:10px;">
+            Ūdens Atgādinātājs palīdz sekot līdzi ikdienas ūdens patēriņam
+            un veidot veselīgus ieradumus.
+        </p>
+    </div>
+</section>
+
+</main>
+
+<script>
+const DAILY_GOAL = 3000;
+let water = 0;
+
+const waterCount = document.getElementById("waterCount");
+const progressBar = document.getElementById("progressBar");
+const progressText = document.getElementById("progressText");
+
+function toggleMenu(){
+    document.getElementById("nav").classList.toggle("show");
+}
+
+function showPage(id){
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    document.getElementById("nav").classList.remove("show");
+    updateUI();
+}
+
+function addWater(){
+    water += 250;
+    if(water > DAILY_GOAL) water = DAILY_GOAL;
+    updateUI();
+}
+
+function resetProgress(){
+    water = 0;
+    updateUI();
+}
+
+function updateUI(){
+    waterCount.textContent = water + " ml";
+    const percent = Math.round((water / DAILY_GOAL) * 100);
+    progressBar.style.width = percent + "%";
+    progressText.textContent = percent + "% no dienas mērķa";
+}
+
+updateUI();
+</script>
+
+</body>
+</html>
